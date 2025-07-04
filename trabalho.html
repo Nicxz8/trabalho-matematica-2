@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flash Cards Interativos</title>
+<style>
+  /* Reset básico */
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  header, footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+  }
+
+  main.container-cards {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+
+  .card {
+    width: 260px;
+    height: 160px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+
+  .card-inner.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    font-size: 1.2rem;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+
+  .card-front {
+    background: #fff;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .card-back {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    transform: rotateY(180deg);
+  }
+
+  @media (max-width: 600px) {
+    .card {
+      width: 90vw;
+      height: 140px;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Flash Cards de Estudo</h1>
+</header>
+
+<main id="container-cards" class="container-cards">
+  <!-- Cards serão criados aqui -->
+</main>
+
+<footer>
+  <p>Desenvolvido com 💙 - Unidade Start by Alura</p>
+</footer>
+
+<script>
+  const flashcardsData = [
+    { question: "O que é HTML?", answer: "Linguagem de marcação para estruturar páginas web." },
+    { question: "Para que serve CSS?", answer: "Para estilizar e posicionar elementos na página." },
+    { question: "O que faz o JavaScript?", answer: "Adiciona interatividade e dinamismo ao site." },
+    { question: "O que é flexbox?", answer: "Um modelo CSS para layout flexível e responsivo." },
+    { question: "Como fazer um efeito de flip?", answer: "Usando transformações 3D no CSS e toggle de classes." }
+  ];
+
+  const container = document.getElementById('container-cards');
+
+  function criarCard(flashcard) {
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    const cardInner = document.createElement('div');
+    cardInner.classList.add('card-inner');
+
+    const cardFront = document.createElement('div');
+    cardFront.classList.add('card-front');
+    cardFront.textContent = flashcard.question;
+
+    const cardBack = document.createElement('div');
+    cardBack.classList.add('card-back');
+    cardBack.textContent = flashcard.answer;
+
+    cardInner.appendChild(cardFront);
+    cardInner.appendChild(cardBack);
+    card.appendChild(cardInner);
+
+    card.addEventListener('click', () => {
+      cardInner.classList.toggle('flipped');
+    });
+
+    return card;
+  }
+
+  flashcardsData.forEach(flashcard => {
+    container.appendChild(criarCard(flashcard));
+  });
+</script>
+</body>
+</html>
